@@ -1,5 +1,4 @@
 import time
-from numpy import full
 import requests
 from bs4 import BeautifulSoup
 import datetime
