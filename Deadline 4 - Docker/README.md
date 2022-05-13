@@ -8,25 +8,20 @@ dockerhub url: https://hub.docker.com/repository/docker/jarneschoolmeesters/firs
 	Installatie voor ubuntu: zie bash script: "Docker_Install_Script.bash"
 	
 ## MongoDB image in Docker:
-Commando: 
-	docker run -d --name mongo-Jarne -p 27888:27017 mongo
+	Commando: docker run -d --name mongo-Jarne -p 27888:27017 mongo
 
 ## Redis image in Docker:
-Commando: 
-	docker run -d --name redis-Jarne -p 8389:6379 redis
+	Commando: docker run -d --name redis-Jarne -p 8389:6379 redis
 
 ## Pythonimage met benodigde packages (2 opties):
 ### optie 1 - image importeren van dockerhub:
-Commando: 
-	docker pull jarneschoolmeesters/firstimage
+	Commando: docker pull jarneschoolmeesters/firstimage
 ### optie2 - image zelf maken:
-Navigeer in terminal naar de correcte map met de webscraper en Dockerfile.
-Commando: 
-	docker build -t jarneschoolmeesters/firstimage .
+	Navigeer in terminal naar de correcte map met de webscraper en Dockerfile.
+	Commando: docker build -t jarneschoolmeesters/firstimage .
 
 ## Webscraper uitvoeren:
-Commando: 
-	docker run -d --name webscraper-Jarne --network=host jarneschoolmeesters/firstimage
+	Commando: docker run -d --name webscraper-Jarne --network=host jarneschoolmeesters/firstimage
 
 ## Output: 
 	Een log tekstbestand met de data van de grootste transactie per minuut met de data: datum, tijd, bitcoinhash, transactiewaarde in bitcoin en transactiewaarde in US Dollar.
