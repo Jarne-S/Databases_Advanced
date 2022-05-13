@@ -24,7 +24,6 @@ def toevoegenCheck(tijdswaarde , hash):
 
 def grootsteTransactieVinden(tijdswaarde , datum):
     transactiewaarde = 0
-    transactieindex = 0
     hoogstetransactie = ""
     for i in range(0,r.llen(tijdswaarde)):
         transactie = json.loads(r.lindex(tijdswaarde,i))
@@ -100,7 +99,6 @@ while True:
     hashes.reverse()
 
     # DATA CLEANING EN SAMENZETTEN
-    Alldata = []
     for x in range(0, len(hashes)):
         hashcode = hashes[x].find("a" , {"sc-1r996ns-0 fLwyDF sc-1tbyx6t-1 kCGMTY iklhnl-0 eEewhk d53qjk-0 ctEFcK"}).get_text()
         OtherData = hashes[x].find_all("span" , {"class":"sc-1ryi78w-0 cILyoi sc-16b9dsl-1 ZwupP u3ufsr-0 eQTRKC"})
@@ -108,22 +106,21 @@ while True:
         TimeStamp = tijdzone(OtherData[0].get_text())
         BitcoinAmount = OtherData[1].get_text()
         DollarAmount = OtherData[2].get_text()
-        Alldata.append([hashcode, TimeStamp , BitcoinAmount , DollarAmount])
+        transactie = [hashcode, TimeStamp , BitcoinAmount , DollarAmount]
 
     # DATA TOEVOEGEN / GROOTSTE ZOEKEN
-    for x in range(0,len(Alldata)):
-        tijdswaarde = int(Alldata[x][1].replace(":",""))
+        tijdswaarde = int(transactie[1].replace(":",""))
         datum = dateformat(currentDate)
 
         if currentTransactionTime == "":
             currentTransactionTime = tijdswaarde
             
-            if toevoegenCheck(currentTransactionTime, Alldata[x][0]):
-                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(Alldata[x])))
+            if toevoegenCheck(currentTransactionTime, transactie[0]):
+                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(transactie)))
         
         elif tijdswaarde == currentTransactionTime:
-            if toevoegenCheck(currentTransactionTime, Alldata[x][0]):
-                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(Alldata[x])))
+            if toevoegenCheck(currentTransactionTime, transactie[0]):
+                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(transactie)))
 
         elif (currentTransactionTime >= 2357) and (tijdswaarde <= 2):
             # Hoogste resultaat printen
@@ -133,8 +130,8 @@ while True:
             #nieuwe minuut van transacties opslagen & dag+1
             currentTransactionTime = tijdswaarde
             currentDate += datetime.timedelta(days=1)
-            if toevoegenCheck(currentTransactionTime, Alldata[x][0]):
-                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(Alldata[x])))
+            if toevoegenCheck(currentTransactionTime, transactie[0]):
+                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(transactie)))
 
         elif(tijdswaarde >= 2357) and (currentTransactionTime <=2):
             currentTransactionTime = currentTransactionTime
@@ -146,5 +143,5 @@ while True:
 
             #nieuwe minuut van transacties opslagen
             currentTransactionTime = tijdswaarde
-            if toevoegenCheck(currentTransactionTime, Alldata[x][0]):
-                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(Alldata[x])))
+            if toevoegenCheck(currentTransactionTime, transactie[0]):
+                r.lpush(currentTransactionTime , json.dumps(jsontransformatie(transactie)))

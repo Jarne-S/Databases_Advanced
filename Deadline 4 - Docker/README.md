@@ -31,3 +31,4 @@ dockerhub url: https://hub.docker.com/repository/docker/jarneschoolmeesters/firs
 	De MongoDB database kan bekeken worden mits installatie van MongoDB compass en te verbinden met de port uit het mongodb docker commando (port: 27888)
 
 	Opmerking: Het logbestand en de terminal output zal niet zichtbaar zijn aangezien het bestand in de python image runt en niet lokaal op python.
+	
