@@ -22,6 +22,11 @@ dockerhub url: https://hub.docker.com/repository/docker/jarneschoolmeesters/firs
 
 ## Webscraper uitvoeren:
 	Commando: docker run -d --name webscraper-Jarne --network=host jarneschoolmeesters/firstimage
+### logbestand bekijken van de webscraper:
+(het bestand bestaat pas nadat de eerste grootste transactie gevonden is, dus het logbestand openen zal misschien pas mogelijk zijn 1 minuut na start van de container, afhankelijk van het startmoment.)
+	Commando's: 	docker exec -it [container id] bash
+					cat logs.txt
+
 
 ## Output: 
 	Een log tekstbestand met de data van de grootste transactie per minuut met de data: datum, tijd, bitcoinhash, transactiewaarde in bitcoin en transactiewaarde in US Dollar.
@@ -29,6 +34,3 @@ dockerhub url: https://hub.docker.com/repository/docker/jarneschoolmeesters/firs
 		- Collectie 1 genaamd "all_transactions": bevat per minuut een document met alle transacties van die minuut.
 		- Collectie 2 genaamd "biggest_transactions": bevat per minuut een document met de grootste transactie van die minuut
 	De MongoDB database kan bekeken worden mits installatie van MongoDB compass en te verbinden met de port uit het mongodb docker commando (port: 27888)
-
-	Opmerking: Het logbestand en de terminal output zal niet zichtbaar zijn aangezien het bestand in de python image runt en niet lokaal op python.
-	
